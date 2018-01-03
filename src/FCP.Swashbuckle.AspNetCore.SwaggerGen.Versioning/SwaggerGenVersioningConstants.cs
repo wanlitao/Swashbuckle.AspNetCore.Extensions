@@ -2,6 +2,6 @@
 {
     internal static class SwaggerGenVersioningConstants
     {
-        internal const string SwaggerInfoVersionGroupKey = "VersionGroup";
+        internal const string SwaggerInfoVersionGroupKey = "versionGroup";
     }
 }
