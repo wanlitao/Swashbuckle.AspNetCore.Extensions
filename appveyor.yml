@@ -1,0 +1,15 @@
+version: 1.0.{build}
+skip_non_tags: true
+image: Visual Studio 2017
+configuration: Release
+before_build:
+- cmd: nuget restore
+build:
+  publish_nuget: true
+  verbosity: minimal
+deploy:
+- provider: NuGet
+  api_key:
+    secure: AELXglWcSLyMiJw4z1sgM+MpLP3bY0uxo7LKiDmjBE4s0Q2cU5VF6ah29gcAK+Oy
+  skip_symbols: true
+  artifact: /.*\.nupkg/
