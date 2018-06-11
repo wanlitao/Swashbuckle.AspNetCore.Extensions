@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCP.Swashbuckle.AspNetCore.SwaggerGen.Versioning", "src\FCP.Swashbuckle.AspNetCore.SwaggerGen.Versioning\FCP.Swashbuckle.AspNetCore.SwaggerGen.Versioning.csproj", "{85B38EE4-69F8-4F2E-86E3-8B2917E25A4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCP.Swashbuckle.AspNetCore.SwaggerGen.Versioning", "src\FCP.Swashbuckle.AspNetCore.SwaggerGen.Versioning\FCP.Swashbuckle.AspNetCore.SwaggerGen.Versioning.csproj", "{85B38EE4-69F8-4F2E-86E3-8B2917E25A4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCP.Swashbuckle.AspNetCore.SwaggerUI.Versioning", "src\FCP.Swashbuckle.AspNetCore.SwaggerUI.Versioning\FCP.Swashbuckle.AspNetCore.SwaggerUI.Versioning.csproj", "{44B89DEF-9CDA-483A-B039-25121186788B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCP.Swashbuckle.AspNetCore.SwaggerUI.Versioning", "src\FCP.Swashbuckle.AspNetCore.SwaggerUI.Versioning\FCP.Swashbuckle.AspNetCore.SwaggerUI.Versioning.csproj", "{44B89DEF-9CDA-483A-B039-25121186788B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCP.Swashbuckle.AspNetCore.Swagger", "src\FCP.Swashbuckle.AspNetCore.Swagger\FCP.Swashbuckle.AspNetCore.Swagger.csproj", "{17316F28-86DB-4101-BB2D-1B10A22E64C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCP.Swashbuckle.AspNetCore.SwaggerGen", "src\FCP.Swashbuckle.AspNetCore.SwaggerGen\FCP.Swashbuckle.AspNetCore.SwaggerGen.csproj", "{0BA01904-9D5F-48FB-BCDB-85937B17FBAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{44B89DEF-9CDA-483A-B039-25121186788B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44B89DEF-9CDA-483A-B039-25121186788B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44B89DEF-9CDA-483A-B039-25121186788B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17316F28-86DB-4101-BB2D-1B10A22E64C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17316F28-86DB-4101-BB2D-1B10A22E64C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17316F28-86DB-4101-BB2D-1B10A22E64C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17316F28-86DB-4101-BB2D-1B10A22E64C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BA01904-9D5F-48FB-BCDB-85937B17FBAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BA01904-9D5F-48FB-BCDB-85937B17FBAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BA01904-9D5F-48FB-BCDB-85937B17FBAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BA01904-9D5F-48FB-BCDB-85937B17FBAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

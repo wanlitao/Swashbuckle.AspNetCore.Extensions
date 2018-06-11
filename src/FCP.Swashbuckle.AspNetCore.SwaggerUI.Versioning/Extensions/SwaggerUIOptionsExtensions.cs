@@ -8,11 +8,23 @@ namespace Swashbuckle.AspNetCore.SwaggerUI
         public static SwaggerUIOptions VersioningSwaggerEndpoints(this SwaggerUIOptions options,
             IApiVersionDescriptionProvider provider)
         {
-            return VersioningSwaggerEndpoints(options, provider, "{0} Docs");
+            return VersioningSwaggerEndpoints(options, provider, false);
+        }
+
+        public static SwaggerUIOptions VersioningSwaggerEndpoints(this SwaggerUIOptions options,
+            IApiVersionDescriptionProvider provider, bool urlRelative)
+        {
+            return VersioningSwaggerEndpoints(options, provider, "{0} Docs", urlRelative);
         }
 
         public static SwaggerUIOptions VersioningSwaggerEndpoints(this SwaggerUIOptions options,
             IApiVersionDescriptionProvider provider, string docDescriptionFormat)
+        {
+            return VersioningSwaggerEndpoints(options, provider, docDescriptionFormat, false);
+        }
+
+        public static SwaggerUIOptions VersioningSwaggerEndpoints(this SwaggerUIOptions options,
+            IApiVersionDescriptionProvider provider, string docDescriptionFormat, bool urlRelative)
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
@@ -25,7 +37,13 @@ namespace Swashbuckle.AspNetCore.SwaggerUI
 
             foreach (var description in provider.ApiVersionDescriptions)
             {
-                options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                var endPointUrl = $"{description.GroupName}/swagger.json";
+                if (!urlRelative)
+                {
+                    endPointUrl = $"/{options.RoutePrefix}/{endPointUrl}";
+                }
+
+                options.SwaggerEndpoint(endPointUrl,
                     string.Format(docDescriptionFormat, description.GroupName.ToUpperInvariant()));
             }
 
