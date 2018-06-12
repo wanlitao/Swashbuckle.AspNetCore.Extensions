@@ -1,16 +1,17 @@
-﻿using Microsoft.Net.Http.Headers;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 using System;
 
 namespace Swashbuckle.AspNetCore.Swagger
 {
     public static class SwaggerOptionsExtensions
     {
-        public static SwaggerOptions ResolveBasePathByRequest(this SwaggerOptions options)
+        public static SwaggerOptions ResolveBasePathByRequestReferer(this SwaggerOptions options)
         {
-            return ResolveBasePathByRequest(options, "swagger");
+            return ResolveBasePathByRequestReferer(options, "swagger");
         }
 
-        public static SwaggerOptions ResolveBasePathByRequest(this SwaggerOptions options,
+        public static SwaggerOptions ResolveBasePathByRequestReferer(this SwaggerOptions options,
             string swaggerRoutePrefix)
         {
             if (options == null)
@@ -19,17 +20,30 @@ namespace Swashbuckle.AspNetCore.Swagger
             if (string.IsNullOrWhiteSpace(swaggerRoutePrefix))
                 throw new ArgumentNullException(nameof(swaggerRoutePrefix));
 
-            options.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
-            {
-                var referer = new Uri(httpReq.Headers[HeaderNames.Referer].ToString());
-                var docHost = httpReq.Headers[HeaderNames.Host].ToString();
-                if (string.Compare($"{referer.Host}:{referer.Port}", docHost, true) != 0)
-                {
-                    swaggerDoc.BasePath = referer.AbsolutePath.Substring(0, referer.AbsolutePath.IndexOf($"/{swaggerRoutePrefix}"));
-                }
-            });
+            options.PreSerializeFilters.Add(BuildBasePathFilterByCheckRequestReferer(swaggerRoutePrefix));
 
             return options;
+        }
+
+        private static Action<SwaggerDocument, HttpRequest> BuildBasePathFilterByCheckRequestReferer(string swaggerRoutePrefix)
+        {
+            return (swaggerDoc, httpReq) =>
+            {
+                var refererUrl = httpReq.Headers[HeaderNames.Referer].ToString();
+                if (string.IsNullOrWhiteSpace(refererUrl))
+                    return;
+
+                var referer = new Uri(refererUrl);
+                var docHost = httpReq.Headers[HeaderNames.Host].ToString();
+                if (string.Compare($"{referer.Host}:{referer.Port}", docHost, true) == 0)
+                    return;
+
+                var swaggerRouteIndex = referer.AbsolutePath.IndexOf($"/{swaggerRoutePrefix}");
+                if (swaggerRouteIndex <= 0)
+                    return;
+
+                swaggerDoc.BasePath = referer.AbsolutePath.Substring(0, swaggerRouteIndex);
+            };
         }
     }
 }
