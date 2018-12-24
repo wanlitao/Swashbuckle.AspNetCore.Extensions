@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
+using Swashbuckle.AspNetCore.Swagger;
 using System;
 
-namespace Swashbuckle.AspNetCore.Swagger
+namespace Microsoft.AspNetCore.Builder
 {
     public static class SwaggerOptionsExtensions
     {

@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 
-namespace Swashbuckle.AspNetCore.SwaggerUI
+namespace Microsoft.AspNetCore.Builder
 {
     public static class SwaggerUIOptionsExtensions
     {
