@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 
@@ -36,12 +37,12 @@ namespace Microsoft.Extensions.DependencyInjection
 
             foreach (var description in provider.ApiVersionDescriptions)
             {
-                var info = new Info()
+                var info = new OpenApiInfo()
                 {
                     Title = string.Format(docTitleFormat, description.ApiVersion),
                     Version = description.ApiVersion.ToString()
                 };
-                info.Extensions.Add(SwaggerGenVersioningConstants.SwaggerInfoVersionGroupKey, description.GroupName);
+                info.Extensions.Add(SwaggerGenVersioningConstants.SwaggerInfoVersionGroupKey, new OpenApiString(description.GroupName));
 
                 options.SwaggerDoc(description.GroupName, info);
             }

@@ -1,7 +1,6 @@
-﻿using Swashbuckle.AspNetCore.Swagger;
+﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
-using System.Collections.Generic;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -12,16 +11,22 @@ namespace Microsoft.Extensions.DependencyInjection
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
-            options.AddSecurityDefinition("Bearer", new ApiKeyScheme
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
-                In = "header",
+                In = ParameterLocation.Header,
                 Name = "Authorization",
                 Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\""
             });
 
-            options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
-                { "Bearer", new string[] { } }
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+                    },
+                    new string[] { }
+                }                
             });
 
             return options;

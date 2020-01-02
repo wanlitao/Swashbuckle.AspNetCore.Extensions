@@ -1,4 +1,5 @@
-﻿using Swashbuckle.AspNetCore.Swagger;
+﻿using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Linq;
 
@@ -16,14 +17,20 @@ namespace Swashbuckle.AspNetCore.SwaggerGen
             _versionParameterName = versionParamName;
         }
 
-        public void Apply(SwaggerDocument swaggerDoc, DocumentFilterContext context)
+        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
-            swaggerDoc.Paths = swaggerDoc.Paths
+            var newPathDict = swaggerDoc.Paths
                 .ToDictionary(
                     path => path.Key.Replace($"v{{{_versionParameterName}}}",
-                                swaggerDoc.Info.Extensions[SwaggerGenVersioningConstants.SwaggerInfoVersionGroupKey].ToString()),
+                                (swaggerDoc.Info.Extensions[SwaggerGenVersioningConstants.SwaggerInfoVersionGroupKey] as OpenApiString).Value),
                     path => path.Value
                 );
+
+            swaggerDoc.Paths.Clear();
+            foreach(var path in newPathDict)
+            {
+                swaggerDoc.Paths.Add(path.Key, path.Value);
+            }
         }
     }
 }

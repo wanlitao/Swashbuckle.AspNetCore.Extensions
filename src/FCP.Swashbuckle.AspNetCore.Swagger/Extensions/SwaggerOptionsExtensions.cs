@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
+using System.Collections.Generic;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -26,7 +28,7 @@ namespace Microsoft.AspNetCore.Builder
             return options;
         }
 
-        private static Action<SwaggerDocument, HttpRequest> BuildBasePathFilterByCheckRequestReferer(string swaggerRoutePrefix)
+        private static Action<OpenApiDocument, HttpRequest> BuildBasePathFilterByCheckRequestReferer(string swaggerRoutePrefix)
         {
             return (swaggerDoc, httpReq) =>
             {
@@ -43,7 +45,8 @@ namespace Microsoft.AspNetCore.Builder
                 if (swaggerRouteIndex <= 0)
                     return;
 
-                swaggerDoc.BasePath = referer.AbsolutePath.Substring(0, swaggerRouteIndex);
+                var basePath = referer.AbsolutePath.Substring(0, swaggerRouteIndex);
+                swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}{basePath}" } };                
             };
         }
     }
