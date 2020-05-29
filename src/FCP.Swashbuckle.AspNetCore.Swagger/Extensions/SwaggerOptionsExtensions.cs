@@ -11,24 +11,15 @@ namespace Microsoft.AspNetCore.Builder
     {
         public static SwaggerOptions ResolveBasePathByRequestReferer(this SwaggerOptions options)
         {
-            return ResolveBasePathByRequestReferer(options, "swagger");
-        }
-
-        public static SwaggerOptions ResolveBasePathByRequestReferer(this SwaggerOptions options,
-            string swaggerRoutePrefix)
-        {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
-            if (string.IsNullOrWhiteSpace(swaggerRoutePrefix))
-                throw new ArgumentNullException(nameof(swaggerRoutePrefix));
-
-            options.PreSerializeFilters.Add(BuildBasePathFilterByCheckRequestReferer(swaggerRoutePrefix));
+            options.PreSerializeFilters.Add(BuildBasePathFilterByCheckRequestReferer());
 
             return options;
         }
 
-        private static Action<OpenApiDocument, HttpRequest> BuildBasePathFilterByCheckRequestReferer(string swaggerRoutePrefix)
+        private static Action<OpenApiDocument, HttpRequest> BuildBasePathFilterByCheckRequestReferer()
         {
             return (swaggerDoc, httpReq) =>
             {
@@ -40,13 +31,8 @@ namespace Microsoft.AspNetCore.Builder
                 var docHost = httpReq.Headers[HeaderNames.Host].ToString();
                 if (string.Compare($"{referer.Host}:{referer.Port}", docHost, true) == 0)
                     return;
-
-                var swaggerRouteIndex = referer.AbsolutePath.IndexOf($"/{swaggerRoutePrefix}");
-                if (swaggerRouteIndex <= 0)
-                    return;
-
-                var basePath = referer.AbsolutePath.Substring(0, swaggerRouteIndex);
-                swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}{basePath}" } };                
+                
+                swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" } };
             };
         }
     }
