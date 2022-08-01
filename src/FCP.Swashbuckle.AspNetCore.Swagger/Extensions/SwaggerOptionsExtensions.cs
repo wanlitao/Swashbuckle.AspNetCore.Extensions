@@ -46,11 +46,7 @@ namespace Microsoft.AspNetCore.Builder
                 if (string.Compare($"{referer.Host}:{referer.Port}", docHost, true) == 0)
                     return;
 
-                var refererPrefixPath = referer.AbsolutePath.Substring(0, referer.AbsolutePath.IndexOf("/swagger"));
-
-                swaggerDoc.Servers = new List<OpenApiServer> {
-                    new OpenApiServer { Url = $"{referer.Scheme}://{referer.Host}:{referer.Port}{refererPrefixPath}" }
-                };
+                swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" } };
             };
         }
 
